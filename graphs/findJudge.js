@@ -2,60 +2,60 @@
 //Edge - shows different connections between nodes.
 //Adjacent List - where index is the node and the value is the node neighbors.
 class Graph {
-    constructor() {
-        this.adjacentList = {};  // object with node key and holds array of node neighbors
+    constructor(nodes) {
+        this.edgeObj = {};  // object with node key and holds array of node neighbors
+        for (let node=1; node<=nodes; node++){
+          this.addNode(node);
+        }
     }
 
     //initialize each node with 
     //a placeholder array for all their node neighbors
     addNode(node){
-        this.adjacentList[node] = [];
+        this.edgeObj[node] = [];
     }
 
     // edge is the link between all node neighbors
     addEdge(node1, node2){
         //directed Graph - this node only goes in one direction not bidirectional
-        this.adjacentList[node1].push(node2)
-    }
-
-    // judge doesnt trust so no adjacent connections(or no trusted neighbors)
-    // index is the neighbor and value is the node neighbors
-    findJudge(){
-       const judgeNotFound = -1;
-       return Object.keys(this.adjacentList).reduce((acc,currNeighbor) =>{
-            if (this.adjacentList[currNeighbor] == ""){ // no trusted neighbors
-                return currNeighbor; // non trusting judge
-            }
-            return acc;
-        }, judgeNotFound)
+        this.edgeObj[node1].push(node2)
     }
 
     // display the node and connections to help visualize how Graph works
     showConnections(){
-        const allNodes = Object.keys(this.adjacentList);
-        for (let node of allNodes){
-            let adjacentNodes = this.adjacentList[node];
-            let connections = "";
+        const nodes = Object.keys(this.edgeObj);
+        for (let node of nodes){
+            let adjacentNodes = this.edgeObj[node];
+            let adjacentConnections = "";
             for (let adjacentNode of adjacentNodes){
-                connections += adjacentNode + " ";
+                adjacentConnections += adjacentNode + " ";
             }
-            console.log( node + "-->" + connections);
+            console.log( node + "-->" + adjacentConnections);
         }
     }
-
 
 }
 
 function findJudge(numOfNeighbors, trustPairList){
-    const trustGraph = new Graph();
-    for (let neighbor=1; neighbor<=numOfNeighbors; neighbor++){
-        trustGraph.addNode(neighbor);
-    }
+    const trustGraph = new Graph(numOfNeighbors);
+
     trustPairList.forEach(currTrustPair =>{
         trustGraph.addEdge(...currTrustPair);
     })
+
+    //display connections onto screen for visualization
     trustGraph.showConnections();
-    return trustGraph.findJudge();
+
+    // judge doesnt trust so no adjacent connections(or no trusted neighbors)
+    // index is the neighbor and value is the node neighbors
+    const judgeNotFound = -1;
+    return Object.keys(trustGraph.edgeObj).reduce((acc,currNeighbor) =>{
+        if (trustGraph.edgeObj[currNeighbor] == ""){ // no trusted neighbors
+            return currNeighbor; // non trusting judge
+        }
+        return acc;
+    }, judgeNotFound)
+
 }
 
 // Judge doesnt trust so he is the onle one who doesnt have any adjacent links
