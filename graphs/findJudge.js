@@ -14,6 +14,7 @@ class Graph {
         this.adjacentList[node1].push(node2)
     }
 
+    // judge doesnt have any adjacent connections
     findJudge(){
        return Object.keys(this.adjacentList).reduce((acc,currKey) =>{
             if (this.adjacentList[currKey] == ""){
@@ -23,14 +24,14 @@ class Graph {
         }, -1)
     }
 
+    // display the node and connections
     showConnections(){
         console.log("adjacentList =",this.adjacentList)
         const allNodes = Object.keys(this.adjacentList);
         for (let node of allNodes){
             let nodeConnections = this.adjacentList[node];
             let connections = "";
-            let vertex;
-            for (vertex of nodeConnections){
+            for (let vertex of nodeConnections){
                 connections += vertex + " ";
             }
             console.log(node+ "-->" + connections);
