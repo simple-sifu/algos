@@ -3,16 +3,18 @@
 //Adjacent List - where index is the node and the value is the node neighbors.
 class Graph {
     constructor() {
-        this.adjacentList = {};
+        this.adjacentList = {};  // object with node key and holds array of node neighbors
     }
 
+    //initialize each node with 
+    //a placeholder array for all their node neighbors
     addNode(node){
         this.adjacentList[node] = [];
     }
 
-    // edge is the link betwen nodes
+    // edge is the link between all node neighbors
     addEdge(node1, node2){
-        //directed Graph - node only goes in one direction
+        //directed Graph - this node only goes in one direction not bidirectional
         this.adjacentList[node1].push(node2)
     }
 
@@ -28,7 +30,7 @@ class Graph {
         }, judgeNotFound)
     }
 
-    // display the node and connections
+    // display the node and connections to help visualize how Graph works
     showConnections(){
         const allNodes = Object.keys(this.adjacentList);
         for (let node of allNodes){
@@ -45,15 +47,15 @@ class Graph {
 }
 
 function findJudge(numOfNeighbors, trustPairList){
-    const myGraph = new Graph();
+    const trustGraph = new Graph();
     for (let neighbor=1; neighbor<=numOfNeighbors; neighbor++){
-        myGraph.addNode(neighbor);
+        trustGraph.addNode(neighbor);
     }
     trustPairList.forEach(currTrustPair =>{
-        myGraph.addEdge(...currTrustPair);
+        trustGraph.addEdge(...currTrustPair);
     })
-    myGraph.showConnections();
-    return myGraph.findJudge();
+    trustGraph.showConnections();
+    return trustGraph.findJudge();
 }
 
 // Judge doesnt trust so he is the onle one who doesnt have any adjacent links
