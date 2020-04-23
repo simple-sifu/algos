@@ -48,7 +48,7 @@ function findJudge(numOfNeighbors, trustPairList){
     // trustGraph.showConnections();
 
     // judge doesnt trust so no adjacent connections(or no trusted neighbors)
-    // index is the neighbor and value is the node neighbors or adjacent neighbors
+    // edges index is the neighbor and value is the node neighbors or adjacent neighbors
     const judgeNotFound = -1;
     return trustGraph.edges.reduce((acc,currAdjacentNeighbor) =>{
         if (trustGraph.edges[currAdjacentNeighbor] == ""){ // no trusted neighbors
